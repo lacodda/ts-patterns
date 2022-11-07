@@ -1,0 +1,4 @@
+# TYPESCRIPT DESIGN PATTERNS
+
+## License
+[MIT](LICENSE.md)
