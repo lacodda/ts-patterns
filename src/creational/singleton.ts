@@ -5,7 +5,7 @@ class Store {
 
   private constructor() { }
 
-  public clean() {
+  public clean(): void {
     this.map = new Map();
   }
 
@@ -19,7 +19,7 @@ class Store {
 
 // FirstService
 class FirstService {
-  save(key: number, value: string) {
+  save(key: number, value: string): void {
     const store = Store.get();
     store.map.set(key, value);
   }
@@ -27,7 +27,7 @@ class FirstService {
 
 // SecondService
 class SecondService {
-  getByKey(key: number) {
+  getByKey(key: number): void {
     const store = Store.get();
     console.log(store.map.get(key));
     store.clean();

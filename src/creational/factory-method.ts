@@ -1,9 +1,9 @@
 interface IDelivery {
   id: number;
   status: number;
-  setWeight(weight: number): void;
-  setAddress(address: string): void;
-  calculate(): Promise<number>;
+  setWeight: (weight: number) => void;
+  setAddress: (address: string) => void;
+  calculate: () => Promise<number>;
 }
 
 // FirstDelivery
@@ -24,7 +24,7 @@ class FirstDelivery implements IDelivery {
   async calculate(): Promise<number> {
     const res = await fetch('/first', {
       method: 'POST',
-      body: JSON.stringify({ weight: this.weight, city: this.address }),
+      body: JSON.stringify({ weight: this.weight, city: this.address })
     });
     const data = await res.json();
     return data.sum;
@@ -49,7 +49,7 @@ class SecondDelivery implements IDelivery {
   async calculate(): Promise<number> {
     const res = await fetch('/second', {
       method: 'POST',
-      body: JSON.stringify({ weight: this.weight, address: this.address }),
+      body: JSON.stringify({ weight: this.weight, address: this.address })
     });
     const data = await res.json();
     return data.result;
@@ -62,7 +62,7 @@ abstract class DeliveryFactory {
 
   abstract createDelivery(): IDelivery;
 
-  saveHistory(ins: IDelivery) {
+  saveHistory(ins: IDelivery): void {
     this.db.save(ins.id, ins.status);
   }
 }
@@ -83,5 +83,8 @@ class SecondDeliveryFactory extends DeliveryFactory {
 
 // Use
 const firstDeliveryFactory = new FirstDeliveryFactory();
-const instance = firstDeliveryFactory.createDelivery();
-firstDeliveryFactory.saveHistory(instance);
+const firstInstance = firstDeliveryFactory.createDelivery();
+firstDeliveryFactory.saveHistory(firstInstance);
+const secondDeliveryFactory = new SecondDeliveryFactory();
+const secondInstance = secondDeliveryFactory.createDelivery();
+secondDeliveryFactory.saveHistory(secondInstance);
